@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -41,9 +42,12 @@ public class BookController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Book> updateBookStatus(@PathVariable Long id, @RequestBody String status) {
-        return bookService.updateBookStatus(id, status)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Book> updateStatus(@PathVariable Long id, @RequestParam String status) {
+        Optional<Book> updatedBook = bookService.updateBookStatus(id, status);
+        if (updatedBook.isPresent()) {
+            return ResponseEntity.ok(updatedBook.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

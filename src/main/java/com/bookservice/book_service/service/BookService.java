@@ -40,8 +40,14 @@ public class BookService {
     }
 
     public Optional<Book> updateBookStatus(Long id, String status) {
+        String novoStatus = status.toLowerCase();
+
+        if (!novoStatus.equals("disponivel") && !novoStatus.equals("reservado")) {
+            return Optional.empty();
+        }
+
         return bookRepository.findById(id).map(book -> {
-            book.setStatus(status);
+            book.setStatus(novoStatus);
             return bookRepository.save(book);
         });
     }

@@ -14,7 +14,7 @@ public class Book {
 
     private String autor;
 
-    private String status; // "disponível" ou "reservado"
+    private String status;
 
     public Book() {}
 
@@ -24,7 +24,6 @@ public class Book {
         this.status = status;
     }
 
-    // getters e setters
 
     public Long getId() {
         return id;
